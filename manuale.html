@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manuale d'Uso - Spese Casa</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- ICONA PER LO SMARTPHONE -->
+    <link rel="apple-touch-icon" href="logo.png?v=2">
+    <link rel="icon" type="image/png" href="logo.png?v=2">
+</head>
+
+<body>
+    <div class="container">
+        <a href="index.html" class="btn-back">← Torna al Menu</a>
+
+        <div class="header-box">
+            <img src="logo.png?v=2" alt="Logo" class="header-logo">
+            <h2>📖 Manuale d'Uso</h2>
+        </div>
+
+        <!-- 1. HOME PAGE -->
+        <div class="card">
+            <h3>1. Menu Principale</h3>
+            <p>È la schermata d'ingresso da cui si accede a tutte le funzioni dell'applicazione:</p>
+            <ul>
+                <li><strong>➕ Inserisci Movimenti:</strong> Per registrare nuove entrate o uscite.</li>
+                <li><strong>⚙️ Gestisci Categorie:</strong> Per personalizzare l'elenco delle categorie.</li>
+                <li><strong>🔍 Ricerca e Totali:</strong> Per consultare ed eliminare lo storico dei movimenti.</li>
+                <li><strong>📊 Grafico Spese:</strong> Per visualizzare l'andamento del saldo e la proporzione
+                    entrate/uscite.</li>
+                <li><strong>💾 Backup e Ripristino:</strong> Per salvare o recuperare la copia di sicurezza dei dati.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 2. INSERIMENTO MOVIMENTI -->
+        <div class="card">
+            <h3>2. ➕ Inserisci Movimenti</h3>
+            <ol>
+                <li><strong>Tipo Movimento:</strong> Seleziona <em>Uscita</em> (spesa) o <em>Entrata</em> (guadagno).
+                </li>
+                <li><strong>Data:</strong> Imposta la data dell'operazione (di default è la data odierna).</li>
+                <li><strong>Importo:</strong> Inserisci la cifra in euro (es. <code>25.50</code>).</li>
+                <li><strong>Categoria:</strong> Scegli la voce dal menu a tendina (es. <em>Spesa</em>,
+                    <em>Bollette</em>, <em>Stipendio</em>).
+                </li>
+                <li><strong>Note:</strong> (Opzionale) Aggiungi un dettaglio o una descrizione.</li>
+                <li>Premi il bottone verde <strong>Salva</strong> per confermare l'inserimento.</li>
+            </ol>
+        </div>
+
+        <!-- 3. GESTIONE CATEGORIE -->
+        <div class="card">
+            <h3>3. ⚙️ Gestisci Categorie</h3>
+            <ul>
+                <li><strong>Aggiungi Categoria:</strong> Scrivi il nome, scegli se si riferisce a <em>Entrate</em> o
+                    <em>Uscite</em> e premi <strong>Aggiungi</strong>.
+                </li>
+                <li><strong>Elimina Categoria:</strong> Premi il pulsante rosso accanto alla categoria che non desideri
+                    più utilizzare.</li>
+            </ul>
+        </div>
+
+        <!-- 4. RICERCA E TOTALI -->
+        <div class="card">
+            <h3>4. 🔍 Ricerca e Totali</h3>
+            <ul>
+                <li><strong>Filtri di Ricerca:</strong> Puoi filtrare le transazioni per <em>Mese</em>, <em>Anno</em>,
+                    <em>Categoria</em> o cercare una parola chiave nelle note.
+                </li>
+                <li><strong>Calcolo Totali:</strong> I box in alto aggiornano in tempo reale il totale delle Entrate,
+                    Uscite e il Saldo del filtro scelto.</li>
+                <li><strong>Cancellazione:</strong> Puoi eliminare una singola voce errata premendo
+                    <strong>Elimina</strong> sulla relativa riga della tabella.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 5. GRAFICO SPESE -->
+        <div class="card">
+            <h3>5. 📊 Grafico Spese</h3>
+            <ul>
+                <li>Seleziona il <em>Mese</em> e l'<em>Anno</em> dai menu a tendina per analizzare un periodo specifico.
+                </li>
+                <li>Il box in alto mostra il <strong>Saldo del Periodo</strong> calcolato automaticamente.</li>
+                <li>La barra <strong>Verde</strong> indica la quota di Entrate, quella <strong>Rossa</strong> mostra la
+                    quota di Uscite.</li>
+            </ul>
+        </div>
+
+        <!-- 6. BACKUP E RIPRISTINO -->
+        <div class="card">
+            <h3>6. 💾 Backup e Ripristino Dati</h3>
+            <p>I dati risiedono nella memoria locale del dispositivo. Per non rischiare di perderli:</p>
+            <ul>
+                <li><strong>⬇️ Scarica Backup Dati:</strong> Scarica un file <code>.json</code> con la copia completa di
+                    tutte le spese e categorie nei <em>Download</em>. Si consiglia di farlo periodicamente.</li>
+                <li><strong>📂 Ripristina da Backup:</strong> In caso di cambio telefono o reset del browser, seleziona
+                    il file <code>.json</code> salvato per ricaricare subito tutti i dati.</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+
+</html>
