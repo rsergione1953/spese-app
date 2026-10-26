@@ -1,0 +1,20 @@
+{
+    "name": "Spese Domestiche Registro",
+    "short_name": "SpeseDom",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#f4ecd8",
+    "theme_color": "#c5a059",
+    "icons": [
+        {
+            "src": "logo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
