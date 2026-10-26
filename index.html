@@ -112,11 +112,22 @@
         </div>
 
         <div id="page-export" class="page-sheet">
-            <h3 style="margin-top:0; font-variant: small-caps;">Esportazione Dati</h3>
-            <div class="btn-3d export-btn" onclick="exportToCSV()"><i class="fas fa-file-csv"></i> Esporta in CSV
-                (Locale)</div>
-            <div class="btn-3d export-btn"><i class="fas fa-cloud-upload-alt"></i> Sincronizzazione Cloud
-                (Prossimamente)</div>
+            <h3 style="margin-top:0; font-variant: small-caps;">Gestione Dati</h3>
+
+            <!-- ESORTAZIONE CSV -->
+            <div class="btn-3d export-btn" onclick="exportToCSV()">
+                <i class="fas fa-file-csv"></i> Esporta in CSV (Locale)
+            </div>
+
+            <div style="margin: 20px 0; text-align: center; font-size: 0.8rem; color: #666;">--- RIPRISTINO ---</div>
+
+            <!-- RESTORE DB (Nuova funzione) -->
+            <div class="btn-3d export-btn" style="background-color: #e0e0e0; color: #333;"
+                onclick="document.getElementById('file-input').click()">
+                <i class="fas fa-undo"></i> Restore DB (da File)
+            </div>
+            <!-- Input nascosto per selezionare il file -->
+            <input type="file" id="file-input" style="display: none;" accept=".csv" onchange="handleRestore(this)">
         </div>
     </div>
 

@@ -1,7 +1,9 @@
 /**
  * CONFIGURAZIONE E VARIABILI GLOBALI
  */
+// NOTA SOCIO: Se pubblichi su Render/Railway, cambia '127.0.0.1' con l'indirizzo HTTPS del tuo server!
 const API_URL = "http://127.0.0.1:5000";
+
 const fixedExpenses = ["Corrente", "Gas", "Telefono", "Immondizie", "Condominio", "Acqua Minerale", "Carburante"];
 const fixedIncome = ["Stipendio 1", "Stipendio 2"];
 const months = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
@@ -153,25 +155,81 @@ async function loadChart() {
     } catch (e) { console.error("Errore grafico:", e); }
 }
 
+/**
+ * 4. EXPORT & RESTORE (IL CUORE DEL NUOVO SISTEMA)
+ */
 async function exportToCSV() {
     try {
         const response = await fetch(`${API_URL}/export_all`);
+        if (!response.ok) throw new Error("Server non raggiungibile");
+
         const data = await response.json();
-        if (data.length === 0) { alert("Nessun dato!"); return; }
+        if (data.length === 0) { alert("Nessun dato da esportare!"); return; }
+
         let csv = "Data;Voce;Importo;Tipo\n";
-        data.forEach(item => { csv += `${item.data};${item.voce};${item.importo.toFixed(2)};${item.tipo}\n`; });
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        data.forEach(item => {
+            csv += `${item.data};${item.voce};${item.importo.toFixed(2)};${item.tipo}\n`;
+        });
+
+        // Aggiunta BOM per compatibilità totale con Excel (UTF-8)
+        const BOM = "\uFEFF";
+        const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8;' });
+
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.setAttribute("href", url);
-        link.setAttribute("download", `export_${new Date().toISOString().split('T')[0]}.csv`);
-        document.body.appendChild(link); link.click(); document.body.removeChild(link);
-        alert("✅ Esportazione riuscita!");
-    } catch (e) { alert("Errore esportazione!"); }
+        link.setAttribute("download", `export_spese_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        alert("✅ Esportazione riuscita! Salva il file nella tua cartella sincronizzata.");
+    } catch (e) {
+        console.error(e);
+        alert("Errore esportazione: Assicurati che il server sia attivo.");
+    }
+}
+
+async function handleRestore(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+        const text = e.target.result;
+        const lines = text.split("\n").slice(1); // Salta l'intestazione (Data;Voce...)
+        let count = 0;
+
+        try {
+            for (let line of lines) {
+                if (!line.trim()) continue;
+                const [data, voce, importo, tipo] = line.split(";");
+
+                // Inviamo ogni riga al server per salvarla nel DB
+                const response = await fetch(`${API_URL}/save_data`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        data: data,
+                        voce: voce,
+                        importo: parseFloat(importo),
+                        tipo: tipo
+                    })
+                });
+                if (response.ok) count++;
+            }
+            alert(`✅ Ripristino completato! ${count} voci caricate correttamente.`);
+            updateDateDisplay(); // Ricarica i dati a schermo
+        } catch (err) {
+            console.error(err);
+            alert("Errore durante il ripristino. Verifica la connessione al server.");
+        }
+    };
+    reader.readAsText(file);
 }
 
 /**
- * 4. UTILS E CALCOLO
+ * 5. UTILS E CALCOLO
  */
 function parseCurrency(text) {
     const clean = text.replace('€', '').replace(/\s/g, '').replace(',', '.').trim();
@@ -191,7 +249,7 @@ function calculateTotals() {
 }
 
 /**
- * 5. GESTIONE INTERFACCIA (UI)
+ * 6. GESTIONE INTERFACCIA (UI)
  */
 document.addEventListener('keypress', (e) => {
     if (e.target.classList.contains('amount-cell') && !/[0-9.,]/.test(e.key)) e.preventDefault();
