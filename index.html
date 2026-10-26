@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spese Domestiche</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f4ecd8">
+    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <h1 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <img src="logo.png" style="width: 40px; height: 40px; border-radius: 50%;">
+                Spese Domestiche
+            </h1>
+            <div class="date-nav">
+                <div class="nav-arrow" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></div>
+                <div class="date-display" id="date-display">Caricamento...</div>
+                <div class="nav-arrow" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </header>
+
+        <div class="summary-card">
+            <div class="summary-item"><span>Entrate</span><strong style="color: green;" id="sum-entrate">€ 0.00</strong>
+            </div>
+            <div class="summary-item"><span>Uscite</span><strong style="color: red;" id="sum-uscite">€ 0.00</strong>
+            </div>
+            <div class="summary-item"><span>Bilancio</span><strong id="sum-bilancio">€ 0.00</strong></div>
+        </div>
+
+        <div class="nav-bar">
+            <div class="btn-3d" onclick="showPage('page-entrate', this)"><i class="fas fa-arrow-up"></i>Entrate</div>
+            <div class="btn-3d active" onclick="showPage('page-uscite', this)"><i class="fas fa-arrow-down"></i>Uscite
+            </div>
+            <div class="btn-3d" onclick="showPage('page-bilancio', this)"><i class="fas fa-scale-balanced"></i>Bilancio
+            </div>
+            <div class="btn-3d" onclick="showPage('page-grafico', this)"><i class="fas fa-chart-pie"></i>Grafico</div>
+            <div class="btn-3d" onclick="showPage('page-export', this)"><i class="fas fa-file-export"></i>Esporta</div>
+        </div>
+
+        <div id="page-uscite" class="page-sheet active">
+            <h3 style="margin-top:0; font-variant: small-caps;">Dettaglio Uscite</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Voce</th>
+                        <th style="text-align: right;">Importo</th>
+                    </tr>
+                </thead>
+                <tbody id="table-uscite"></tbody>
+            </table>
+            <div class="add-row" onclick="addRow('table-uscite', 'uscita')"><i class="fas fa-plus"></i> Aggiungi voce
+                spesa</div>
+        </div>
+
+        <div id="page-entrate" class="page-sheet">
+            <h3 style="margin-top:0; font-variant: small-caps;">Dettaglio Entrate</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Voce</th>
+                        <th style="text-align: right;">Importo</th>
+                    </tr>
+                </thead>
+                <tbody id="table-entrate"></tbody>
+            </table>
+            <div class="add-row" onclick="addRow('table-entrate', 'entrata')"><i class="fas fa-plus"></i> Aggiungi
+                entrata</div>
+        </div>
+
+        <div id="page-bilancio" class="page-sheet">
+            <h3 style="margin-top:0; font-variant: small-caps; text-align: center;">Riepilogo Bilancio</h3>
+            <div class="period-selector">
+                <label>Da:</label><select id="year-start"></select>
+                <label>A:</label><select id="year-end"></select>
+                <button class="btn-3d" style="padding: 5px 10px; font-size: 0.6rem;"
+                    onclick="loadAnnualBalance()">Aggiorna</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Periodo</th>
+                        <th style="text-align: right;">Entrate</th>
+                        <th style="text-align: right;">Uscite</th>
+                        <th style="text-align: right;">Saldo</th>
+                    </tr>
+                </thead>
+                <tbody id="table-bilancio"></tbody>
+            </table>
+        </div>
+
+        <div id="page-grafico" class="page-sheet">
+            <h3 style="margin-top:0; font-variant: small-caps; text-align: center;">Analisi Grafica</h3>
+            <div class="period-selector">
+                <label>Da:</label><select id="graph-year-start"></select>
+                <label>A:</label><select id="graph-year-end"></select>
+                <button class="btn-3d" style="padding: 5px 10px; font-size: 0.6rem;"
+                    onclick="loadChart()">Aggiorna</button>
+            </div>
+            <div style="position: relative; height:300px; width:100%"><canvas id="myChart"></canvas></div>
+        </div>
+
+        <div id="page-export" class="page-sheet">
+            <h3 style="margin-top:0; font-variant: small-caps;">Gestione Dati</h3>
+            <div class="btn-3d export-btn" onclick="exportToCSV()"><i class="fas fa-file-csv"></i> Esporta in CSV
+                (Backup)</div>
+            <div style="margin: 20px 0; text-align: center; font-size: 0.8rem; color: #666;">--- RIPRISTINO ---</div>
+            <div class="btn-3d export-btn" style="background-color: #e0e0e0; color: #333;"
+                onclick="document.getElementById('file-input').click()">
+                <i class="fas fa-undo"></i> Restore DB (da File)
+            </div>
+            <input type="file" id="file-input" style="display: none;" accept=".csv" onchange="handleRestore(this)">
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
