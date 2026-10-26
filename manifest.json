@@ -1,6 +1,6 @@
 {
     "name": "Spese Domestiche Registro",
-    "short_name": "SpeseDom",
+    "short_name": "SpeseApp",
     "start_url": "index.html",
     "display": "standalone",
     "background_color": "#f4ecd8",
